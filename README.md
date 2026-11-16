@@ -1,1 +1,99 @@
-# attendance
+# attendance<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الحضور والانصراف</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Tahoma,system-ui,sans-serif;background:linear-gradient(180deg,#e9eef6,#f6f8fb);color:#1B2430;min-height:100vh}
+header{background:linear-gradient(180deg,#3a7bd5,#1E5AA8);color:#fff;padding:22px 16px 20px;border-radius:0 0 30px 30px;box-shadow:0 10px 0 #163f7a,0 16px 26px rgba(0,0,0,.18)}
+header h1{margin:0;font-size:22px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+nav{display:flex;gap:10px;margin-top:14px}
+nav button{flex:1;padding:11px;border:0;border-radius:14px;background:rgba(255,255,255,.2);color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 0 rgba(0,0,0,.18);cursor:pointer}
+nav button.on{background:#fff;color:#1E5AA8;box-shadow:0 4px 0 #b8c6da}
+main{padding:18px 16px 40px;max-width:600px;margin:auto}
+.card{background:linear-gradient(180deg,#fff,#f2f5fa);border-radius:22px;padding:16px;margin-bottom:18px;box-shadow:0 8px 0 #d6dee9,0 16px 26px rgba(0,0,0,.1)}
+.btn3{width:100%;border:0;border-radius:18px;padding:18px;color:#fff;font-weight:800;font-size:18px;cursor:pointer;background:linear-gradient(180deg,#4a8be0,#1E5AA8);box-shadow:0 8px 0 #163f7a,0 14px 22px rgba(30,90,168,.35);transition:transform .08s,box-shadow .08s;margin-top:12px}
+.btn3:active{transform:translateY(6px);box-shadow:0 2px 0 #163f7a,0 6px 10px rgba(0,0,0,.2)}
+.btn3.g{background:linear-gradient(180deg,#3fb56e,#1F8A4C);box-shadow:0 8px 0 #13683a,0 14px 22px rgba(31,138,76,.35)}
+.btn3.g:active{box-shadow:0 2px 0 #13683a,0 6px 10px rgba(0,0,0,.2)}
+.btn3.r{background:linear-gradient(180deg,#d9483d,#B3261E);box-shadow:0 8px 0 #7d1a14,0 14px 22px rgba(179,38,30,.35)}
+.btn3.r:active{box-shadow:0 2px 0 #7d1a14,0 6px 10px rgba(0,0,0,.2)}
+.btn3.o{background:#fff;color:#1E5AA8;box-shadow:0 8px 0 #b8c6da,0 14px 22px rgba(0,0,0,.1)}
+.btn3.o:active{box-shadow:0 2px 0 #b8c6da}
+.btn3:disabled{opacity:.4;transform:none;box-shadow:0 4px 0 #9aa5b5;cursor:not-allowed}
+.btn3.small{width:auto;padding:10px 14px;font-size:14px;margin:0;border-radius:14px}
+input,select{width:100%;padding:14px;border:2px solid #d6dee9;border-radius:16px;font-size:17px;margin-top:6px;margin-bottom:12px;background:#fff;box-shadow:inset 0 3px 6px rgba(0,0,0,.06)}
+label{font-size:14px;color:#5B6675;font-weight:700}
+.msg{padding:14px;border-radius:16px;margin:0 0 14px;font-size:15px;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.06)}
+.ok{background:#E6F4EC;color:#1F8A4C}.bad{background:#FCE9E7;color:#B3261E}.warn{background:#FFF3DC;color:#9A5B00}
+.who{display:flex;align-items:center;gap:14px}
+.av{width:72px;height:72px;border-radius:50%;background:linear-gradient(180deg,#dbe8fb,#b9d3f2);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;color:#1E5AA8;flex-shrink:0;font-size:28px;box-shadow:inset 0 -5px 0 rgba(0,0,0,.1),0 8px 14px rgba(0,0,0,.2);border:3px solid #fff}
+.av img{width:100%;height:100%;object-fit:cover}
+.muted{font-size:14px;color:#5B6675}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.key{border:0;border-radius:18px;padding:18px 0;font-size:24px;font-weight:800;color:#1B2430;background:linear-gradient(180deg,#fff,#e4eaf3);box-shadow:0 6px 0 #c4cfdd,0 10px 16px rgba(0,0,0,.1);cursor:pointer}
+.key:active{transform:translateY(4px);box-shadow:0 2px 0 #c4cfdd}
+.codebox{text-align:center;font-size:30px;font-weight:800;letter-spacing:6px;padding:18px;background:#fff;border-radius:18px;box-shadow:inset 0 3px 8px rgba(0,0,0,.08);min-height:72px;color:#1E5AA8}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:9px 4px;border-bottom:1px solid #e6ebf2;text-align:center}
+.hide{display:none!important}
+.code-pill{background:linear-gradient(180deg,#ffe9a8,#f5c75a);padding:3px 10px;border-radius:10px;font-weight:800;color:#6b4a00;box-shadow:0 3px 0 #c99a2b}
+</style>
+</head>
+<body>
+<header>
+  <h1>الحضور والانصراف</h1>
+  <nav id="nav" class="hide">
+    <button id="tPunch" class="on" onclick="show('punch')">تسجيل</button>
+    <button id="tRep" onclick="show('report')">التقرير</button>
+    <button id="tAdm" onclick="show('admin')">الإدارة</button>
+  </nav>
+</header>
+
+<main>
+  <section id="login">
+    <div class="card">
+      <label>أدخل رمزك الخاص</label>
+      <div class="codebox" id="codeShow" style="margin-top:8px">ادخل رمزك</div>
+      <div class="keys" id="keys"></div>
+    </div>
+  </section>
+
+  <section id="punch" class="hide">
+    <div class="card">
+      <div class="who" id="who"></div>
+      <button class="btn3 o small" style="margin-top:14px" onclick="logout()">خروج (للموظف التالي)</button>
+    </div>
+    <div id="geo" class="msg warn">جاري تحديد موقعك...</div>
+    <div class="card" id="actions"></div>
+    <div class="card">
+      <label>سجل اليوم</label>
+      <div id="today" style="margin-top:8px;font-size:16px;line-height:1.9"></div>
+    </div>
+  </section>
+
+  <section id="report" class="hide">
+    <div class="card">
+      <label>الشهر</label>
+      <input type="month" id="month" onchange="renderReport()">
+      <div id="repOut"></div>
+    </div>
+  </section>
+
+  <section id="admin" class="hide">
+    <div id="pinBox" class="card">
+      <label>رمز الإدارة</label>
+      <input type="password" id="pin" inputmode="numeric">
+      <button class="btn3" onclick="checkPin()">دخول</button>
+    </div>
+    <div id="adminBox" class="hide">
+      <div class="card">
+        <h3 style="margin:0 0 10px">إعدادات الدوام</h3>
+        <label>موقع المحل</label>
+        <button class="btn3 o" onclick="setShopLocation()">حفظ موقع المحل الحالي (كن داخل المحل)</button>
+        <div id="shopInfo" class="muted" style="margin-top:8px"></div>
+        <label>نطاق الموقع (متر)</label><input type="number" id="radius">
+        <label>السماح بالتأخير والانصراف المبكر (دقائق)</label><input type="number" id="grace">
+        <label>ساعات الدوام اليومية</label>
