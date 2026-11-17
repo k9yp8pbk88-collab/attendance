@@ -1,0 +1,441 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>الحضور والانصراف</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{margin:0;font-family:Tahoma,system-ui,sans-serif;background:linear-gradient(180deg,#e9eef6,#f6f8fb);color:#1B2430;min-height:100vh}
+header{background:linear-gradient(180deg,#3a7bd5,#1E5AA8);color:#fff;padding:22px 16px 20px;border-radius:0 0 30px 30px;box-shadow:0 10px 0 #163f7a,0 16px 26px rgba(0,0,0,.18)}
+header h1{margin:0;font-size:22px;text-shadow:0 2px 0 rgba(0,0,0,.2)}
+nav{display:flex;gap:10px;margin-top:14px}
+nav button{flex:1;padding:11px;border:0;border-radius:14px;background:rgba(255,255,255,.2);color:#fff;font-weight:800;font-size:15px;box-shadow:0 4px 0 rgba(0,0,0,.18);cursor:pointer}
+nav button.on{background:#fff;color:#1E5AA8;box-shadow:0 4px 0 #b8c6da}
+main{padding:18px 16px 40px;max-width:600px;margin:auto}
+.card{background:linear-gradient(180deg,#fff,#f2f5fa);border-radius:22px;padding:16px;margin-bottom:18px;box-shadow:0 8px 0 #d6dee9,0 16px 26px rgba(0,0,0,.1)}
+.btn3{width:100%;border:0;border-radius:18px;padding:18px;color:#fff;font-weight:800;font-size:18px;cursor:pointer;background:linear-gradient(180deg,#4a8be0,#1E5AA8);box-shadow:0 8px 0 #163f7a,0 14px 22px rgba(30,90,168,.35);transition:transform .08s,box-shadow .08s;margin-top:12px}
+.btn3:active{transform:translateY(6px);box-shadow:0 2px 0 #163f7a,0 6px 10px rgba(0,0,0,.2)}
+.btn3.g{background:linear-gradient(180deg,#3fb56e,#1F8A4C);box-shadow:0 8px 0 #13683a,0 14px 22px rgba(31,138,76,.35)}
+.btn3.g:active{box-shadow:0 2px 0 #13683a,0 6px 10px rgba(0,0,0,.2)}
+.btn3.r{background:linear-gradient(180deg,#d9483d,#B3261E);box-shadow:0 8px 0 #7d1a14,0 14px 22px rgba(179,38,30,.35)}
+.btn3.r:active{box-shadow:0 2px 0 #7d1a14,0 6px 10px rgba(0,0,0,.2)}
+.btn3.o{background:#fff;color:#1E5AA8;box-shadow:0 8px 0 #b8c6da,0 14px 22px rgba(0,0,0,.1)}
+.btn3.o:active{box-shadow:0 2px 0 #b8c6da}
+.btn3:disabled{opacity:.4;transform:none;box-shadow:0 4px 0 #9aa5b5;cursor:not-allowed}
+.btn3.small{width:auto;padding:10px 14px;font-size:14px;margin:0;border-radius:14px}
+input,select{width:100%;padding:14px;border:2px solid #d6dee9;border-radius:16px;font-size:17px;margin-top:6px;margin-bottom:12px;background:#fff;box-shadow:inset 0 3px 6px rgba(0,0,0,.06)}
+label{font-size:14px;color:#5B6675;font-weight:700}
+.msg{padding:14px;border-radius:16px;margin:0 0 14px;font-size:15px;font-weight:700;box-shadow:0 4px 0 rgba(0,0,0,.06)}
+.ok{background:#E6F4EC;color:#1F8A4C}.bad{background:#FCE9E7;color:#B3261E}.warn{background:#FFF3DC;color:#9A5B00}
+.who{display:flex;align-items:center;gap:14px}
+.av{width:72px;height:72px;border-radius:50%;background:linear-gradient(180deg,#dbe8fb,#b9d3f2);overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:800;color:#1E5AA8;flex-shrink:0;font-size:28px;box-shadow:inset 0 -5px 0 rgba(0,0,0,.1),0 8px 14px rgba(0,0,0,.2);border:3px solid #fff}
+.av img{width:100%;height:100%;object-fit:cover}
+.muted{font-size:14px;color:#5B6675}
+.keys{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+.key{border:0;border-radius:18px;padding:18px 0;font-size:24px;font-weight:800;color:#1B2430;background:linear-gradient(180deg,#fff,#e4eaf3);box-shadow:0 6px 0 #c4cfdd,0 10px 16px rgba(0,0,0,.1);cursor:pointer}
+.key:active{transform:translateY(4px);box-shadow:0 2px 0 #c4cfdd}
+.codebox{text-align:center;font-size:30px;font-weight:800;letter-spacing:6px;padding:18px;background:#fff;border-radius:18px;box-shadow:inset 0 3px 8px rgba(0,0,0,.08);min-height:72px;color:#1E5AA8}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:9px 4px;border-bottom:1px solid #e6ebf2;text-align:center}
+.hide{display:none!important}
+.code-pill{background:linear-gradient(180deg,#ffe9a8,#f5c75a);padding:3px 10px;border-radius:10px;font-weight:800;color:#6b4a00;box-shadow:0 3px 0 #c99a2b}
+</style>
+</head>
+<body>
+<header>
+  <h1>الحضور والانصراف</h1>
+  <nav id="nav">
+    <button id="tPunch" class="on" onclick="show('punch')">تسجيل</button>
+    <button id="tRep" onclick="show('report')">التقرير</button>
+    <button id="tAdm" onclick="show('admin')">الإدارة</button>
+  </nav>
+</header>
+
+<main>
+  <!-- الدخول برمز الموظف -->
+  <section id="login">
+    <div class="card">
+      <label>أدخل رمزك الخاص</label>
+      <div class="codebox" id="codeShow" style="margin-top:8px">ادخل رمزك</div>
+      <div class="keys" id="keys"></div>
+    </div>
+  </section>
+
+  <!-- تسجيل الموظف -->
+  <section id="punch" class="hide">
+    <div class="card">
+      <div class="who" id="who"></div>
+      <button class="btn3 o small" style="margin-top:14px" onclick="logout()">خروج (للموظف التالي)</button>
+    </div>
+    <div id="geo" class="msg warn">جاري تحديد موقعك...</div>
+    <div class="card" id="actions"></div>
+    <div class="card">
+      <label>سجل اليوم</label>
+      <div id="today" style="margin-top:8px;font-size:16px;line-height:1.9"></div>
+    </div>
+  </section>
+
+  <!-- التقرير -->
+  <section id="report" class="hide">
+    <div class="card">
+      <label>الشهر</label>
+      <input type="month" id="month" onchange="renderReport()">
+      <div id="repOut"></div>
+    </div>
+  </section>
+
+  <!-- الإدارة -->
+  <section id="admin" class="hide">
+    <div id="pinBox" class="card">
+      <label>رمز الإدارة</label>
+      <input type="password" id="pin" inputmode="numeric">
+      <button class="btn3" onclick="checkPin()">دخول</button>
+    </div>
+    <div id="adminBox" class="hide">
+      <div class="card">
+        <h3 style="margin:0 0 10px">إعدادات الدوام</h3>
+        <label>موقع المحل</label>
+        <button class="btn3 o" onclick="setShopLocation()">حفظ موقع المحل الحالي (كن داخل المحل)</button>
+        <div id="shopInfo" class="muted" style="margin-top:8px"></div>
+        <label>نطاق الموقع (متر)</label><input type="number" id="radius">
+        <label>السماح بالتأخير والانصراف المبكر (دقائق)</label><input type="number" id="grace">
+        <label>ساعات الدوام اليومية</label><input type="number" id="hours">
+        <label>وقت بداية الدوام</label><input type="time" id="start">
+        <label>وقت نهاية الدوام</label><input type="time" id="end">
+        <label>تغيير رمز الإدارة (اتركه فارغ إذا ما تبي تغيره)</label><input id="newPin">
+        <button class="btn3" onclick="saveSettings()">حفظ الإعدادات</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 10px">إضافة موظف</h3>
+        <label>الاسم</label><input id="eName">
+        <label>رقم الهاتف</label><input id="ePhone" inputmode="tel">
+        <label>النوع</label>
+        <select id="eType" onchange="typeChange()">
+          <option value="daily">موظف يومي (راتب يومي)</option>
+          <option value="delivery">موظف توصيل (بالساعة)</option>
+        </select>
+        <div id="dailyFields"><label>الراتب اليومي (دينار)</label><input type="number" id="eDaily"></div>
+        <div id="hourFields" class="hide"><label>سعر الساعة (دينار)</label><input type="number" id="eHour"></div>
+        <label>صورة الموظف</label>
+        <input type="file" id="ePhoto" accept="image/*">
+        <button class="btn3 g" onclick="addEmp()">إضافة الموظف (يطلع له رمز تلقائي)</button>
+      </div>
+
+      <div class="card">
+        <h3 style="margin:0 0 10px">الموظفين ورموزهم</h3>
+        <div id="empList"></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+const KEY = 'attendance_v2';
+const LBL = {in:'حضور', out:'انصراف', dout:'خروج للتوصيل', rin:'رجوع من التوصيل'};
+let db = JSON.parse(localStorage.getItem(KEY) || 'null') || {
+  settings: {lat:null, lng:null, radius:100, grace:10, hours:8, start:'09:00', end:'17:00', pin:'0001'},
+  employees: [], logs: []
+};
+let me = null, typed = '';
+
+function save(){ localStorage.setItem(KEY, JSON.stringify(db)); }
+function dayStr(d){ return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0'); }
+function minOfDay(d){ return d.getHours()*60 + d.getMinutes(); }
+function parseHM(s){ const p = s.split(':').map(Number); return p[0]*60 + p[1]; }
+function hm(m){ return String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0'); }
+function fmt(n){ return Math.round(n).toLocaleString('en-US') + ' د.ع'; }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function avatar(e){ return '<div class="av">' + (e.photo ? '<img src="'+e.photo+'">' : esc((e.name||'?')[0])) + '</div>'; }
+function logsOf(empId, day){ return db.logs.filter(l => l.empId === empId && dayStr(new Date(l.ts)) === day).sort((a,b) => a.ts - b.ts); }
+
+function getPos(){
+  return new Promise((res, rej) => {
+    if(!navigator.geolocation) return rej('no gps');
+    navigator.geolocation.getCurrentPosition(p => res(p.coords), e => rej(e.message), {enableHighAccuracy:true, timeout:15000});
+  });
+}
+function dist(a, b, c, d){
+  const R = 6371000, t = x => x*Math.PI/180;
+  const dLa = t(c-a), dLo = t(d-b);
+  const h = Math.sin(dLa/2)**2 + Math.cos(t(a))*Math.cos(t(c))*Math.sin(dLo/2)**2;
+  return 2*R*Math.asin(Math.sqrt(h));
+}
+
+/* ---------- الدخول برمز ---------- */
+function buildKeys(){
+  const keys = ['1','2','3','4','5','6','7','8','9','C','0','⌫'];
+  document.getElementById('keys').innerHTML = keys.map(k =>
+    '<button class="key" onclick="keyPress(\''+k+'\')">'+k+'</button>'
+  ).join('') + '<button class="btn3 g" style="grid-column:span 3;margin-top:4px" onclick="doLogin()">دخول</button>';
+}
+function keyPress(k){
+  if(k === 'C') typed = '';
+  else if(k === '⌫') typed = typed.slice(0,-1);
+  else if(typed.length < 6) typed += k;
+  document.getElementById('codeShow').textContent = typed ? '•'.repeat(typed.length) : 'ادخل رمزك';
+}
+function doLogin(){
+  if(!typed) return;
+  const e = db.employees.find(x => x.code === typed);
+  keyPress('C');
+  if(!e) return alert('الرمز غلط');
+  me = e;
+  show('punch');
+}
+function logout(){
+  me = null;
+  showOnly('login');
+}
+
+/* ---------- الشاشات ---------- */
+function showOnly(id){
+  ['login','punch','report','admin'].forEach(s => document.getElementById(s).classList.toggle('hide', s !== id));
+}
+function show(n){
+  if(n === 'punch' && !me){ return showOnly('login'); }
+  document.getElementById('nav').classList.remove('hide');
+  const map = {punch:'tPunch', report:'tRep', admin:'tAdm'};
+  Object.keys(map).forEach(s => document.getElementById(map[s]).classList.toggle('on', s === n));
+  showOnly(n);
+  if(n === 'punch') renderPunch();
+  if(n === 'report') renderReport();
+  if(n === 'admin'){
+    document.getElementById('pinBox').classList.remove('hide');
+    document.getElementById('adminBox').classList.add('hide');
+    document.getElementById('pin').value = '';
+  }
+}
+
+/* ---------- تسجيل الموظف ---------- */
+async function refreshGeo(){
+  const g = document.getElementById('geo');
+  try{
+    const c = await getPos();
+    if(db.settings.lat == null){ g.className='msg warn'; g.textContent='لم يتم حفظ موقع المحل بعد (من تبويب الإدارة)'; return; }
+    const d = Math.round(dist(c.latitude, c.longitude, db.settings.lat, db.settings.lng));
+    const inside = d <= db.settings.radius;
+    g.className = 'msg ' + (inside ? 'ok' : 'bad');
+    g.textContent = (inside ? 'أنت داخل نطاق المحل' : 'أنت خارج نطاق المحل') + ' (تبعد ' + d + ' متر، المسموح ' + db.settings.radius + ' متر)';
+  }catch(x){
+    g.className = 'msg bad';
+    g.textContent = 'ما قدرنا نحدد الموقع. فعّل صلاحية الموقع للمتصفح';
+  }
+}
+
+function renderPunch(){
+  if(!me) return showOnly('login');
+  const day = dayStr(new Date()), L = logsOf(me.id, day), last = L[L.length-1];
+  document.getElementById('who').innerHTML = avatar(me) +
+    '<div><div style="font-size:20px;font-weight:800">'+esc(me.name)+'</div><div class="muted">'+(me.type==='delivery'?'موظف توصيل':'موظف يومي')+'</div></div>';
+  let html = '';
+  if(me.type === 'daily'){
+    const hasIn = L.some(l => l.type==='in'), hasOut = L.some(l => l.type==='out');
+    html += '<button class="btn3 g" '+(hasIn?'disabled':'')+' onclick="punch(\'in\')">تسجيل حضور</button>';
+    html += '<button class="btn3 r" '+((!hasIn||hasOut)?'disabled':'')+' onclick="punch(\'out\')">تسجيل انصراف</button>';
+  } else {
+    const outNow = last && last.type === 'dout';
+    html += '<button class="btn3 g" '+(outNow?'disabled':'')+' onclick="punch(\'dout\')">خروج للتوصيل</button>';
+    html += '<button class="btn3 r" '+(outNow?'':'disabled')+' onclick="punch(\'rin\')">رجوع من التوصيل</button>';
+  }
+  document.getElementById('actions').innerHTML = html;
+  document.getElementById('today').innerHTML = L.length
+    ? L.map(l => LBL[l.type]+' ← '+hm(minOfDay(new Date(l.ts)))).join('<br>')
+    : 'ما فيه تسجيل اليوم';
+  refreshGeo();
+}
+
+async function punch(type){
+  if(!me) return;
+  let c;
+  try{ c = await getPos(); }catch(x){ return alert('ما قدرنا نحدد الموقع. فعّل صلاحية الموقع'); }
+  if(db.settings.lat != null){
+    const d = dist(c.latitude, c.longitude, db.settings.lat, db.settings.lng);
+    if(d > db.settings.radius) return alert('أنت خارج نطاق المحل ('+Math.round(d)+' متر). ما يمكن التسجيل');
+  }
+  db.logs.push({empId: me.id, type: type, ts: Date.now()});
+  save();
+  renderPunch();
+}
+
+/* ---------- الحساب ---------- */
+function calcDaily(e, day){
+  const S = db.settings, L = logsOf(e.id, day);
+  const ins = L.filter(l => l.type==='in'), outs = L.filter(l => l.type==='out');
+  if(!ins.length) return {status: day === dayStr(new Date()) ? 'pending' : 'absent'};
+  const pm = e.daily / (S.hours*60);
+  const inM = minOfDay(new Date(ins[0].ts)), start = parseHM(S.start), end = parseHM(S.end);
+  const late = Math.max(0, inM - start);
+  const r = {status:'present', lateMin: late > S.grace ? late : 0, earlyMin: 0, ded: late > S.grace ? late*pm : 0, ot: 0, forgotOut: !outs.length};
+  if(outs.length){
+    const outM = minOfDay(new Date(outs[outs.length-1].ts));
+    const early = Math.max(0, end - outM);
+    if(early > S.grace){ r.earlyMin = early; r.ded += early*pm; }
+    r.ot = Math.max(0, outM - inM - S.hours*60) * pm;
+  }
+  return r;
+}
+
+function calcDelivery(e, day){
+  const L = logsOf(e.id, day);
+  let mins = 0, open = null;
+  L.forEach(l => {
+    if(l.type === 'dout') open = l.ts;
+    else if(l.type === 'rin' && open !== null){ mins += (l.ts - open)/60000; open = null; }
+  });
+  return {mins: mins, pay: mins * (e.hourly/60)};
+}
+
+/* ---------- التقرير ---------- */
+function renderReport(){
+  const mv = document.getElementById('month').value || dayStr(new Date()).slice(0,7);
+  const parts = mv.split('-').map(Number), y = parts[0], mo = parts[1];
+  const dim = new Date(y, mo, 0).getDate(), tS = dayStr(new Date());
+  const days = [];
+  for(let d = 1; d <= dim; d++){
+    const ds = y+'-'+String(mo).padStart(2,'0')+'-'+String(d).padStart(2,'0');
+    if(ds > tS) break;
+    if(new Date(y, mo-1, d).getDay() === 5) continue; // الجمعة إجازة
+    days.push(ds);
+  }
+  let dailyRows = '', delRows = '';
+  db.employees.forEach(e => {
+    if(e.type === 'delivery'){
+      let mins = 0, pay = 0;
+      days.forEach(ds => { const r = calcDelivery(e, ds); mins += r.mins; pay += r.pay; });
+      delRows += '<tr><td>'+esc(e.name)+'</td><td>'+(mins/60).toFixed(1)+'</td><td>'+fmt(pay)+'</td></tr>';
+    } else {
+      let present=0, absent=0, late=0, early=0, ded=0, ot=0;
+      days.forEach(ds => {
+        const r = calcDaily(e, ds);
+        if(r.status === 'pending') return;
+        if(r.status === 'absent'){ absent++; ded += e.daily; return; }
+        present++; late += r.lateMin; early += r.earlyMin; ded += r.ded; ot += r.ot;
+      });
+      const net = e.daily*(present+absent) - ded + ot;
+      dailyRows += '<tr><td>'+esc(e.name)+'</td><td>'+present+'</td><td>'+absent+'</td><td>'+late+'</td><td>'+early+'</td><td>'+fmt(ot)+'</td><td>'+fmt(ded)+'</td><td><b>'+fmt(net)+'</b></td></tr>';
+    }
+  });
+  document.getElementById('repOut').innerHTML =
+    '<h4 style="margin:12px 0 6px">الموظفين اليوميين</h4>' +
+    '<div style="overflow-x:auto"><table><tr><th>الموظف</th><th>حضور</th><th>غياب</th><th>تأخير د</th><th>مبكر د</th><th>زيادة</th><th>خصم</th><th>الصافي</th></tr>' +
+    (dailyRows || '<tr><td colspan="8">لا يوجد</td></tr>') + '</table></div>' +
+    '<h4 style="margin:16px 0 6px">موظفين التوصيل</h4>' +
+    '<table><tr><th>الموظف</th><th>ساعات</th><th>المبلغ</th></tr>' +
+    (delRows || '<tr><td colspan="3">لا يوجد</td></tr>') + '</table>' +
+    '<p class="muted" style="margin-top:12px">الجمعة إجازة ولا تنحسب. الغياب يُخصم يوم كامل. التأخير والانصراف المبكر يُخصم كامل الوقت إذا تجاوز السماح.</p>';
+}
+
+/* ---------- الإدارة ---------- */
+function checkPin(){
+  if(document.getElementById('pin').value !== db.settings.pin) return alert('الرمز غلط');
+  document.getElementById('pinBox').classList.add('hide');
+  document.getElementById('adminBox').classList.remove('hide');
+  fillSettings(); renderEmpList();
+}
+function fillSettings(){
+  const S = db.settings;
+  document.getElementById('radius').value = S.radius;
+  document.getElementById('grace').value = S.grace;
+  document.getElementById('hours').value = S.hours;
+  document.getElementById('start').value = S.start;
+  document.getElementById('end').value = S.end;
+  shopInfo();
+}
+function shopInfo(){
+  document.getElementById('shopInfo').textContent = db.settings.lat == null ? 'ما تم حفظ موقع المحل' : 'تم حفظ موقع المحل ✓';
+}
+async function setShopLocation(){
+  try{
+    const c = await getPos();
+    db.settings.lat = c.latitude; db.settings.lng = c.longitude;
+    save(); shopInfo();
+  }catch(x){ alert('ما قدرنا نحدد الموقع'); }
+}
+function saveSettings(){
+  const S = db.settings;
+  S.radius = +document.getElementById('radius').value || 100;
+  S.grace = +document.getElementById('grace').value || 0;
+  S.hours = +document.getElementById('hours').value || 8;
+  S.start = document.getElementById('start').value || '09:00';
+  S.end = document.getElementById('end').value || '17:00';
+  const np = document.getElementById('newPin').value.trim();
+  if(np) S.pin = np;
+  save(); alert('تم الحفظ');
+}
+function typeChange(){
+  const t = document.getElementById('eType').value;
+  document.getElementById('dailyFields').classList.toggle('hide', t !== 'daily');
+  document.getElementById('hourFields').classList.toggle('hide', t !== 'delivery');
+}
+function smallPhoto(file){
+  return new Promise(res => {
+    if(!file) return res('');
+    const r = new FileReader();
+    r.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const s = 160 / Math.max(img.width, img.height);
+        const c = document.createElement('canvas');
+        c.width = img.width * s; c.height = img.height * s;
+        c.getContext('2d').drawImage(img, 0, 0, c.width, c.height);
+        res(c.toDataURL('image/jpeg', 0.8));
+      };
+      img.src = r.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+function newCode(){
+  let c;
+  do { c = String(1000 + Math.floor(Math.random()*9000)); }
+  while(db.employees.some(e => e.code === c));
+  return c;
+}
+async function addEmp(){
+  const name = document.getElementById('eName').value.trim();
+  if(!name) return alert('اكتب الاسم');
+  const type = document.getElementById('eType').value;
+  const daily = +document.getElementById('eDaily').value || 0;
+  const hourly = +document.getElementById('eHour').value || 0;
+  if(type === 'daily' && !daily) return alert('اكتب الراتب اليومي');
+  if(type === 'delivery' && !hourly) return alert('اكتب سعر الساعة');
+  const photo = await smallPhoto(document.getElementById('ePhoto').files[0]);
+  const code = newCode();
+  db.employees.push({
+    id: 'e' + Date.now(), name: name,
+    phone: document.getElementById('ePhone').value.trim(),
+    type: type,
+    daily: type === 'daily' ? daily : 0,
+    hourly: type === 'daily' ? daily / db.settings.hours : hourly,
+    photo: photo, code: code
+  });
+  save();
+  ['eName','ePhone','eDaily','eHour'].forEach(i => document.getElementById(i).value = '');
+  document.getElementById('ePhoto').value = '';
+  renderEmpList();
+  alert('تمت الإضافة. رمز الموظف: ' + code);
+}
+function renderEmpList(){
+  document.getElementById('empList').innerHTML = db.employees.map(e =>
+    '<div class="who" style="padding:10px 0;border-bottom:1px solid #e6ebf2">'+avatar(e)+
+    '<div style="flex:1"><b>'+esc(e.name)+'</b> <span class="code-pill">رمز: '+esc(e.code)+'</span>'+
+    '<div class="muted">'+esc(e.phone||'')+' · '+(e.type==='delivery' ? 'توصيل '+fmt(e.hourly)+' / ساعة' : 'يومي '+fmt(e.daily))+'</div></div>'+
+    '<button class="btn3 o small" onclick="delEmp(\''+e.id+'\')">حذف</button></div>'
+  ).join('') || '<div class="muted">ما فيه موظفين</div>';
+}
+function delEmp(id){
+  if(!confirm('تحذف الموظف وكل سجلاته؟')) return;
+  db.employees = db.employees.filter(e => e.id !== id);
+  db.logs = db.logs.filter(l => l.empId !== id);
+  save(); renderEmpList();
+}
+
+/* ---------- البداية ---------- */
+buildKeys();
+showOnly('login');
+document.getElementById('month').value = dayStr(new Date()).slice(0,7);
+</script>
+</body>
+</html>
